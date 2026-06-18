@@ -1,0 +1,16 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Inlined into the client bundle at build time
+        NEXT_PUBLIC_FORMSPREE_ID: ${NEXT_PUBLIC_FORMSPREE_ID:-YOUR_FORMSPREE_ID}
+    image: cymdeithasydalar
+    ports:
+      - "3000:3000"
+    environment:
+      - MEMBERS_PASSPHRASE=${MEMBERS_PASSPHRASE}
+      - AUTH_SECRET=${AUTH_SECRET}
+      - GATE_CODE=${GATE_CODE}
+      - ALLOTMENT_GATE_CODE=${ALLOTMENT_GATE_CODE}
+    restart: unless-stopped

@@ -1,0 +1,179 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-nunito);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-patrick);
+  --font-script: var(--font-caveat);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Allotment palette */
+  --background: oklch(0.985 0.012 95);   /* cream */
+  --foreground: oklch(0.26 0.04 150);    /* dark green text */
+  --card: oklch(1 0.004 95);
+  --card-foreground: oklch(0.26 0.04 150);
+  --popover: oklch(1 0.004 95);
+  --popover-foreground: oklch(0.26 0.04 150);
+  --primary: oklch(0.48 0.11 148);       /* green-mid */
+  --primary-foreground: oklch(0.99 0.01 95);
+  --secondary: oklch(0.94 0.03 140);     /* green pale */
+  --secondary-foreground: oklch(0.32 0.07 150);
+  --muted: oklch(0.95 0.02 110);
+  --muted-foreground: oklch(0.52 0.03 145);
+  --accent: oklch(0.92 0.05 140);
+  --accent-foreground: oklch(0.30 0.07 150);
+  --destructive: oklch(0.55 0.2 27);
+  --border: oklch(0.88 0.02 110);        /* cream-dark */
+  --input: oklch(0.88 0.02 110);
+  --ring: oklch(0.62 0.13 142);          /* green-light */
+  --chart-1: oklch(0.62 0.13 142);
+  --chart-2: oklch(0.48 0.11 148);
+  --chart-3: oklch(0.32 0.07 150);
+  --chart-4: oklch(0.75 0.13 85);
+  --chart-5: oklch(0.7 0.15 60);
+  --radius: 0.9rem;
+
+  /* Brand tokens (raw hex for SVG / gradients) */
+  --green-dark: #1e3a1e;
+  --green-mid: #2d6a2d;
+  --green-light: #4a9e4a;
+  --green-pale: #e3f3e1;
+  --green-faint: #f2f8f2;
+  --cream: #faf7f0;
+  --cream-dark: #e2d9c8;
+
+  /* Plot status */
+  --status-available-bg: #e3f3e1;
+  --status-available-line: #4a9e4a;
+  --status-reserved-bg: #fbeccf;
+  --status-reserved-line: #e0a83a;
+  --status-taken-bg: #ececec;
+  --status-taken-line: #d2d2d2;
+
+  --sidebar: oklch(0.985 0.012 95);
+  --sidebar-foreground: oklch(0.26 0.04 150);
+  --sidebar-primary: oklch(0.48 0.11 148);
+  --sidebar-primary-foreground: oklch(0.99 0.01 95);
+  --sidebar-accent: oklch(0.92 0.05 140);
+  --sidebar-accent-foreground: oklch(0.30 0.07 150);
+  --sidebar-border: oklch(0.88 0.02 110);
+  --sidebar-ring: oklch(0.62 0.13 142);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+/* ── Brand utilities ──────────────────────────── */
+@layer components {
+  .font-script { font-family: var(--font-script), cursive; }
+  .font-heading { font-family: var(--font-heading), cursive; }
+
+  .hero-gradient {
+    background:
+      radial-gradient(ellipse at 15% 85%, rgba(74,158,74,.40) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 15%, rgba(74,158,74,.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 50%, rgba(45,106,45,.20) 0%, transparent 70%),
+      linear-gradient(160deg, #243d24 0%, #1e3a1e 50%, #172f17 100%);
+  }
+
+  /* Leaf-sprig divider */
+  .leaf-divider {
+    width: 150px;
+    height: 28px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='28' viewBox='0 0 150 28'%3E%3Cline x1='2' y1='14' x2='52' y2='14' stroke='%234a9e4a' stroke-width='1.5'/%3E%3Cline x1='98' y1='14' x2='148' y2='14' stroke='%234a9e4a' stroke-width='1.5'/%3E%3Cpath d='M75 15 C70 7 62 5 57 4 C60 10 65 14 75 15Z' fill='%234a9e4a'/%3E%3Cpath d='M75 15 C80 7 88 5 93 4 C90 10 85 14 75 15Z' fill='%234a9e4a'/%3E%3Cpath d='M75 16 C72 9 73 3 75 0 C78 4 78 10 75 16Z' fill='%232d6a2d'/%3E%3C/svg%3E");
+  }
+
+  /* Botanical corner branch (hero) */
+  .leaf-branch {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23b3e5b3' stroke-width='2.5'%3E%3Cpath d='M5 20 C60 35 110 70 150 130'/%3E%3Cpath d='M40 30 C55 25 70 30 78 45'/%3E%3Cpath d='M70 52 C88 46 104 52 112 68'/%3E%3Cpath d='M100 78 C118 72 134 80 142 96'/%3E%3Cpath d='M30 50 C30 68 42 80 58 84'/%3E%3Cpath d='M58 78 C58 96 70 108 86 112'/%3E%3C/g%3E%3Cg fill='%23a3dba3'%3E%3Cpath d='M40 30 C55 22 72 26 80 44 C64 48 48 44 40 30Z'/%3E%3Cpath d='M70 52 C85 44 102 48 110 66 C94 70 78 66 70 52Z'/%3E%3Cpath d='M100 78 C115 70 132 74 140 92 C124 96 108 92 100 78Z'/%3E%3Cpath d='M30 50 C22 65 26 82 44 90 C48 74 44 58 30 50Z'/%3E%3Cpath d='M58 78 C50 93 54 110 72 118 C76 102 72 86 58 78Z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+}
