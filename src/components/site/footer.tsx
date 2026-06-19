@@ -23,10 +23,10 @@ export function Footer() {
               />
             </p>
             <a
-              href="mailto:allotmentcommunity@gmail.com"
+              href="mailto:cydcommittee@gmail.com"
               className="text-sm text-white/55 hover:text-white transition-colors"
             >
-              allotmentcommunity@gmail.com
+              cydcommittee@gmail.com
             </a>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
