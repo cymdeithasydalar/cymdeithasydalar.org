@@ -83,8 +83,8 @@ export function WaitingListProvider({ children }: { children: ReactNode }) {
       setStatus("idle");
       setError(
         lang === "cy"
-          ? "Roedd problem. E-bostiwch ni: allotmentcommunity@gmail.com"
-          : "Something went wrong. Please email allotmentcommunity@gmail.com",
+          ? "Roedd problem. E-bostiwch ni: cydcommittee@gmail.com"
+          : "Something went wrong. Please email cydcommittee@gmail.com",
       );
     }
   }
