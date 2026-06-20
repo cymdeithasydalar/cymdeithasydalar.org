@@ -24,6 +24,11 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
+# Writable data dir for admin-edited settings (gate codes). A named volume is
+# mounted here at runtime; creating it owned by nextjs lets the volume inherit
+# writable ownership. Keep in sync with DATA_DIR in docker-compose.yml.
+RUN mkdir -p /data && chown nextjs:nodejs /data
+
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static

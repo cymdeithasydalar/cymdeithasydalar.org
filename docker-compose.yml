@@ -10,7 +10,17 @@ services:
       - "3000:3000"
     environment:
       - MEMBERS_PASSPHRASE=${MEMBERS_PASSPHRASE}
+      - ADMIN_PASSPHRASE=${ADMIN_PASSPHRASE}
       - AUTH_SECRET=${AUTH_SECRET}
+      # GATE_CODE / ALLOTMENT_GATE_CODE are seed defaults only — once codes are
+      # saved via /admin they live in the data volume below and take priority.
       - GATE_CODE=${GATE_CODE}
       - ALLOTMENT_GATE_CODE=${ALLOTMENT_GATE_CODE}
+      - DATA_DIR=/data
+    volumes:
+      # Persists admin-edited gate codes across restarts and rebuilds.
+      - cyd-data:/data
     restart: unless-stopped
+
+volumes:
+  cyd-data:

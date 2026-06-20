@@ -21,5 +21,5 @@ export default async function MembersPage() {
 
   // gateCodes() runs only on the server; the PIN codes reach the browser
   // ONLY in this branch — i.e. after a valid passphrase unlock.
-  return <MembersCodes codes={gateCodes()} lang={lang} />;
+  return <MembersCodes codes={await gateCodes()} lang={lang} />;
 }
