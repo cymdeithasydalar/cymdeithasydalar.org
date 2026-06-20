@@ -39,8 +39,8 @@ export function Footer() {
         </div>
         <p className="text-center text-xs text-white/40">
           <T
-            en="© 2023 Cymdeithas y Dalar. Established 2023."
-            cy="© 2023 Cymdeithas y Dalar. Sefydlwyd 2023."
+            en="© 2026 Cymdeithas y Dalar. Established 2023."
+            cy="© 2026 Cymdeithas y Dalar. Sefydlwyd 2023."
           />
         </p>
       </div>

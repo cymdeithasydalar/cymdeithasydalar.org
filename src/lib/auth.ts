@@ -2,22 +2,26 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { createHash, timingSafeEqual } from "node:crypto";
-import { readCodes } from "@/lib/store";
+import { readCodes, readPassphrases } from "@/lib/store";
 
 export const MEMBER_COOKIE = "cyd_member";
 export const ADMIN_COOKIE = "cyd_admin";
 
 /**
- * Server-only secrets. Set these in the environment (see .env.example).
- * Dev fallbacks are provided so the site runs out of the box, but the
- * PIN codes still never reach the browser until a visitor unlocks.
+ * Passphrases: read from the editable store first (set via /admin), then env
+ * vars, then insecure dev fallbacks. Store values let the admin change them
+ * without a redeploy.
  */
-function passphrase(): string {
-  return process.env.MEMBERS_PASSPHRASE ?? "growtogether";
+async function membersPassphrase(): Promise<string> {
+  const stored = await readPassphrases();
+  return stored?.members ?? process.env.MEMBERS_PASSPHRASE ?? "growtogether";
 }
-function adminPassphrase(): string {
-  return process.env.ADMIN_PASSPHRASE ?? "letmeedit";
+
+async function adminPassphrase(): Promise<string> {
+  const stored = await readPassphrases();
+  return stored?.admin ?? process.env.ADMIN_PASSPHRASE ?? "letmeedit";
 }
+
 function authSecret(): string {
   return process.env.AUTH_SECRET ?? "cyd-dev-secret-change-me";
 }
@@ -49,32 +53,32 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(ab, bb);
 }
 
-export function checkPassphrase(input: string): boolean {
-  return safeEqual(input.trim(), passphrase());
+export async function checkPassphrase(input: string): Promise<boolean> {
+  return safeEqual(input.trim(), await membersPassphrase());
 }
 
-export function checkAdminPassphrase(input: string): boolean {
-  return safeEqual(input.trim(), adminPassphrase());
+export async function checkAdminPassphrase(input: string): Promise<boolean> {
+  return safeEqual(input.trim(), await adminPassphrase());
 }
 
 /** True if the current request carries a valid member cookie. */
 export async function isMember(): Promise<boolean> {
   const store = await cookies();
   const token = store.get(MEMBER_COOKIE)?.value;
-  return !!token && safeEqual(token, expectedToken("member", passphrase()));
+  return !!token && safeEqual(token, expectedToken("member", await membersPassphrase()));
 }
 
 /** True if the current request carries a valid admin cookie. */
 export async function isAdmin(): Promise<boolean> {
   const store = await cookies();
   const token = store.get(ADMIN_COOKIE)?.value;
-  return !!token && safeEqual(token, expectedToken("admin", adminPassphrase()));
+  return !!token && safeEqual(token, expectedToken("admin", await adminPassphrase()));
 }
 
-export function memberToken(): string {
-  return expectedToken("member", passphrase());
+export async function memberToken(): Promise<string> {
+  return expectedToken("member", await membersPassphrase());
 }
 
-export function adminToken(): string {
-  return expectedToken("admin", adminPassphrase());
+export async function adminToken(): Promise<string> {
+  return expectedToken("admin", await adminPassphrase());
 }

@@ -8,7 +8,7 @@ import {
   checkAdminPassphrase,
   isAdmin,
 } from "@/lib/auth";
-import { writeCodes } from "@/lib/store";
+import { readPassphrases, writeCodes, writePassphrases } from "@/lib/store";
 
 export type AdminUnlockState = { error?: string };
 export type SaveState = { error?: string; saved?: boolean };
@@ -19,12 +19,12 @@ export async function adminUnlock(
 ): Promise<AdminUnlockState> {
   const passphrase = String(formData.get("passphrase") ?? "");
 
-  if (!checkAdminPassphrase(passphrase)) {
+  if (!(await checkAdminPassphrase(passphrase))) {
     return { error: "incorrect" };
   }
 
   const store = await cookies();
-  store.set(ADMIN_COOKIE, adminToken(), {
+  store.set(ADMIN_COOKIE, await adminToken(), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -41,19 +41,47 @@ export async function saveCodes(
   _prev: SaveState,
   formData: FormData,
 ): Promise<SaveState> {
-  // Re-check auth server-side — never trust the page render alone.
-  if (!(await isAdmin())) {
-    return { error: "unauthorised" };
-  }
+  if (!(await isAdmin())) return { error: "unauthorised" };
 
   const main = String(formData.get("main") ?? "").trim();
   const allotment = String(formData.get("allotment") ?? "").trim();
 
-  if (!PIN.test(main) || !PIN.test(allotment)) {
-    return { error: "invalid" };
-  }
+  if (!PIN.test(main) || !PIN.test(allotment)) return { error: "invalid" };
 
   await writeCodes({ main, allotment });
+  return { saved: true };
+}
+
+export async function savePassphrases(
+  _prev: SaveState,
+  formData: FormData,
+): Promise<SaveState> {
+  if (!(await isAdmin())) return { error: "unauthorised" };
+
+  const members = String(formData.get("members") ?? "").trim();
+  const admin = String(formData.get("admin") ?? "").trim();
+
+  if (!members && !admin) return { saved: true };
+
+  const current = await readPassphrases();
+  await writePassphrases({
+    members: members || current?.members,
+    admin: admin || current?.admin,
+  });
+
+  // Re-issue admin cookie so the admin isn't immediately logged out after
+  // changing their own passphrase (token is derived from the passphrase).
+  if (admin) {
+    const store = await cookies();
+    store.set(ADMIN_COOKIE, await adminToken(), {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+  }
+
   return { saved: true };
 }
 
