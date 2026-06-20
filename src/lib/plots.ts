@@ -1,46 +1,31 @@
-export type PlotStatus = "available" | "reserved" | "taken";
+import "server-only";
+
+import { readAvailablePlots } from "@/lib/store";
+
+export type PlotStatus = "available" | "taken";
+
+/** Every plot label that exists on the site, in display order. */
+export const ALL_PLOTS: string[] = [
+  "1","2","3","4","5","6","7","8","9","10","11","12","13","14",
+  "15a","15b","16","17","18","19","20","21a","21b","22","23","24","25","26","27","28","29","30",
+  "31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48",
+  "49","50","51","52","53","54","55","56","57","58","59","60","61","62",
+];
+
+export const TOTAL_PLOTS = ALL_PLOTS.length;
 
 /**
- * Current allotment plot allocations. Edit these as plots are taken / freed.
- * Values: "available" | "reserved" | "taken"
+ * Hardcoded seed defaults — used as fallback until the admin saves
+ * a status list via /admin. Any plot not listed here is "taken".
  */
-export const plotStatus: Record<number, PlotStatus> = {
-  1: "taken",      2: "taken",      3: "taken",      4: "available",  5: "taken",
-  6: "taken",      7: "available",  8: "taken",      9: "taken",     10: "reserved",
-  11: "taken",    12: "available", 13: "taken",     14: "taken",     15: "reserved",
-  16: "taken",    17: "available", 18: "taken",     19: "taken",     20: "available",
-  21: "taken",    22: "taken",     23: "available", 24: "taken",     25: "reserved",
-  26: "available",27: "taken",     28: "available", 29: "taken",     30: "available",
-};
+const SEED_AVAILABLE = new Set(["4","7","12","17","20","23","26","28","30"]);
 
-export const TOTAL_PLOTS = 30;
-
-export function availableCount(): number {
-  return Object.values(plotStatus).filter((s) => s === "available").length;
+/** Returns the set of plot labels currently marked available. */
+export async function getAvailablePlots(): Promise<Set<string>> {
+  const stored = await readAvailablePlots();
+  return new Set(stored ?? [...SEED_AVAILABLE]);
 }
 
-/** Geometry for the SVG map. Two columns, grouped 1–14 / 15–22 / 23–30. */
-export type PlotCell = { n: number; x: number; y: number };
-
-export function plotCells(): PlotCell[] {
-  const cells: PlotCell[] = [];
-  const colX = [320, 452]; // left / right column x
-  const w = 124;
-
-  const groups: { start: number; end: number; rows: number[] }[] = [
-    { start: 1, end: 14, rows: [78, 111, 144, 177, 210, 243, 276] },
-    { start: 15, end: 22, rows: [336, 369, 402, 435] },
-    { start: 23, end: 30, rows: [495, 528, 561, 594] },
-  ];
-
-  for (const g of groups) {
-    let n = g.start;
-    for (const y of g.rows) {
-      for (let c = 0; c < 2 && n <= g.end; c++) {
-        cells.push({ n, x: colX[c] + w / 2, y: y + 20 });
-        n++;
-      }
-    }
-  }
-  return cells;
+export async function availableCount(): Promise<number> {
+  return (await getAvailablePlots()).size;
 }

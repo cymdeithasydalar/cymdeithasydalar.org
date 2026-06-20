@@ -87,6 +87,23 @@ export async function writeCodes(codes: GateCodes): Promise<void> {
   await writeFile_("gate-codes.json", JSON.stringify(codes, null, 2));
 }
 
+export async function readAvailablePlots(): Promise<string[] | null> {
+  const ns = await kv();
+  const raw = ns ? await ns.get("available-plots") : await readFile_("available-plots.json");
+  if (!raw) return null;
+  try {
+    const p = JSON.parse(raw);
+    if (Array.isArray(p) && p.every((x) => typeof x === "string")) return p;
+  } catch { /* bad JSON */ }
+  return null;
+}
+
+export async function writeAvailablePlots(plots: string[]): Promise<void> {
+  const ns = await kv();
+  if (ns) { await ns.put("available-plots", JSON.stringify(plots)); return; }
+  await writeFile_("available-plots.json", JSON.stringify(plots, null, 2));
+}
+
 export async function readPassphrases(): Promise<Passphrases | null> {
   const ns = await kv();
   if (ns) return parsePassphrases(await ns.get("passphrases"));

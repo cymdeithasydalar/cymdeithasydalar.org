@@ -8,7 +8,8 @@ import {
   checkAdminPassphrase,
   isAdmin,
 } from "@/lib/auth";
-import { readPassphrases, writeCodes, writePassphrases } from "@/lib/store";
+import { readPassphrases, writeCodes, writePassphrases, writeAvailablePlots } from "@/lib/store";
+import { ALL_PLOTS } from "@/lib/plots";
 
 export type AdminUnlockState = { error?: string };
 export type SaveState = { error?: string; saved?: boolean };
@@ -82,6 +83,16 @@ export async function savePassphrases(
     });
   }
 
+  return { saved: true };
+}
+
+export async function savePlotStatus(
+  _prev: SaveState,
+  formData: FormData,
+): Promise<SaveState> {
+  if (!(await isAdmin())) return { error: "unauthorised" };
+  const available = ALL_PLOTS.filter((p) => formData.get(`plot_${p}`) === "on");
+  await writeAvailablePlots(available);
   return { saved: true };
 }
 

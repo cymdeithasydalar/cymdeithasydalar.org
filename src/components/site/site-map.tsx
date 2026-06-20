@@ -3,15 +3,16 @@ import { SectionHeading } from "./section-heading";
 import { T } from "@/components/lang/language-provider";
 import { InteractiveSiteMap } from "./interactive-site-map";
 
-export function SiteMap() {
+export async function SiteMap() {
+  const count = await availableCount();
   return (
     <section id="sitemap" className="bg-card py-20 scroll-mt-20">
       <div className="max-w-6xl mx-auto px-6">
         <SectionHeading
           en="Site Map"
           cy="Map y Safle"
-          subtitleEn={`${availableCount()} of ${TOTAL_PLOTS} plots available`}
-          subtitleCy={`${availableCount()} o ${TOTAL_PLOTS} llain ar gael`}
+          subtitleEn={`${count} of ${TOTAL_PLOTS} plots available`}
+          subtitleCy={`${count} o ${TOTAL_PLOTS} llain ar gael`}
         />
 
         <div className="max-w-2xl mx-auto">

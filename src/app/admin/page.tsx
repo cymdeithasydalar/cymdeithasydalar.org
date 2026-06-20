@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { isAdmin, gateCodes } from "@/lib/auth";
+import { getAvailablePlots, ALL_PLOTS } from "@/lib/plots";
 import { AdminLogin } from "@/components/site/admin-login";
 import { AdminEditor } from "@/components/site/admin-editor";
 
@@ -16,5 +17,7 @@ export default async function AdminPage() {
     return <AdminLogin />;
   }
 
-  return <AdminEditor codes={await gateCodes()} />;
+  const [codes, available] = await Promise.all([gateCodes(), getAvailablePlots()]);
+
+  return <AdminEditor codes={codes} allPlots={ALL_PLOTS} availablePlots={available} />;
 }
