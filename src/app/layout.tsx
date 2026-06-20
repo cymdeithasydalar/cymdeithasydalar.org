@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Nunito, Patrick_Hand, Caveat, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getLang } from "@/lib/i18n";
@@ -8,6 +8,8 @@ import { WaitingListProvider } from "@/components/waiting-list/waiting-list-prov
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 import { Toaster } from "@/components/ui/sonner";
+
+const BASE_URL = "https://cymdeithasydalar.org";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -29,10 +31,52 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#1e3a1e",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "Cymdeithas y Dalar | Community Allotment",
   description:
     "A friendly, inclusive community allotment — grow, share, learn and thrive. Join our waiting list.",
+  keywords: [
+    "allotment",
+    "community garden",
+    "Cymdeithas y Dalar",
+    "Wales",
+    "organic gardening",
+    "grow your own",
+    "waiting list",
+  ],
+  authors: [{ name: "Cymdeithas y Dalar" }],
+  robots: { index: true, follow: true },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: BASE_URL,
+    siteName: "Cymdeithas y Dalar",
+    title: "Cymdeithas y Dalar | Community Allotment",
+    description:
+      "A friendly, inclusive community allotment — grow, share, learn and thrive together.",
+    locale: "en_GB",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Cymdeithas y Dalar — Community Allotment",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cymdeithas y Dalar | Community Allotment",
+    description:
+      "A friendly, inclusive community allotment — grow, share, learn and thrive together.",
+  },
   icons: {
     icon: "/favicon.svg",
   },
@@ -49,6 +93,21 @@ export default async function RootLayout({
       className={`${nunito.variable} ${patrick.variable} ${caveat.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Cymdeithas y Dalar",
+              description:
+                "A friendly, inclusive community allotment — grow, share, learn and thrive together.",
+              url: BASE_URL,
+              foundingDate: "2023",
+              email: config?.contactEmail ?? "cydcommittee@gmail.com",
+            }),
+          }}
+        />
         <LanguageProvider initialLang={lang}>
           <WaitingListProvider
             formspreeId={config?.formspreeId ?? "xpqeveqn"}
