@@ -1,0 +1,5 @@
+# Local secrets for `wrangler` / OpenNext preview (cf:preview).
+# Copy to .dev.vars (gitignored). On real Cloudflare use `wrangler secret put`.
+MEMBERS_PASSPHRASE=growtogether
+ADMIN_PASSPHRASE=change-me-to-an-admin-passphrase
+AUTH_SECRET=change-me-to-a-long-random-string

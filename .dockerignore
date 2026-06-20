@@ -12,3 +12,8 @@ docker-compose.yml
 .env.local
 *.md
 .claude
+.open-next
+.wrangler
+.dev.vars
+wrangler.jsonc
+open-next.config.ts

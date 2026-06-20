@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cymdeithasydalar",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-01",
+  // Required by OpenNext so node:crypto / node:fs APIs resolve on Workers.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  // Editable gate codes live here on Cloudflare. Create with:
+  //   wrangler kv namespace create CYD_KV
+  // then paste the returned id below.
+  "kv_namespaces": [
+    { "binding": "CYD_KV", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }
+  ],
+  // Non-secret seed defaults (same role as env vars on Docker). Secrets
+  // (MEMBERS_PASSPHRASE, ADMIN_PASSPHRASE, AUTH_SECRET) go via:
+  //   wrangler secret put <NAME>
+  "vars": {
+    "GATE_CODE": "1303",
+    "ALLOTMENT_GATE_CODE": "3254"
+  }
+}
