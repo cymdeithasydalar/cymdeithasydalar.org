@@ -25,8 +25,8 @@ export function InteractiveSiteMap({ availablePlots }: { availablePlots: string[
         el.style.fillOpacity = OPACITY_REST;
         el.style.cursor = "pointer";
       } else {
-        el.style.fill = "";
-        el.style.fillOpacity = "";
+        el.style.fill = "#000000";
+        el.style.fillOpacity = "0";
         el.style.cursor = "default";
       }
     });
