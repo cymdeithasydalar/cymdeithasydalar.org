@@ -14,7 +14,9 @@ export function InteractiveSiteMap({ availablePlots }: { availablePlots: string[
   const containerRef = useRef<HTMLDivElement>(null);
   const availableSet = useMemo(() => new Set(availablePlots), [availablePlots]);
 
-  // Drive fill state via inline styles — bypasses SVG-internal CSS specificity issues.
+  // Re-stamp fill styles after every render: dangerouslySetInnerHTML can reset
+  // the SVG DOM on re-renders (e.g. when the dialog opens), stripping inline styles.
+  // No dep array ensures we always recover.
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -30,7 +32,7 @@ export function InteractiveSiteMap({ availablePlots }: { availablePlots: string[
         el.style.cursor = "default";
       }
     });
-  }, [availableSet]);
+  });
 
   const handleMouseOver = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
