@@ -13,8 +13,15 @@ const root = join(fileURLToPath(import.meta.url), "../..");
 const svg = readFileSync(join(root, "public/site-map.svg"), "utf8");
 
 const hoverCss = `<style>
+  /* Text layer: renders on top visually but passes mouse events through,
+     so hovering over a plot number still hits the plot shape underneath. */
+  #layer1 { pointer-events: none; }
+
   .plot-interactive {
     cursor: pointer;
+    /* all: respond across the full shape area, not just where paint is visible.
+       Without this, transparent-fill rects only fire on the stroke border. */
+    pointer-events: all;
     transition: fill 0.12s ease, fill-opacity 0.12s ease;
   }
   .plot-interactive:hover {
