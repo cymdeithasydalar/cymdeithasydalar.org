@@ -15,6 +15,7 @@ import path from "node:path";
 
 export type GateCodes = { main: string; allotment: string };
 export type Passphrases = { members?: string; admin?: string };
+export type SiteConfig = { formspreeId?: string; contactEmail?: string };
 
 type KvLike = {
   get(key: string): Promise<string | null>;
@@ -114,4 +115,21 @@ export async function writePassphrases(p: Passphrases): Promise<void> {
   const ns = await kv();
   if (ns) { await ns.put("passphrases", JSON.stringify(p)); return; }
   await writeFile_("passphrases.json", JSON.stringify(p, null, 2));
+}
+
+export async function readConfig(): Promise<SiteConfig | null> {
+  const ns = await kv();
+  const raw = ns ? await ns.get("site-config") : await readFile_("site-config.json");
+  if (!raw) return null;
+  try {
+    const p = JSON.parse(raw) as Partial<SiteConfig>;
+    if (typeof p === "object") return p;
+  } catch { /* bad JSON */ }
+  return null;
+}
+
+export async function writeConfig(config: SiteConfig): Promise<void> {
+  const ns = await kv();
+  if (ns) { await ns.put("site-config", JSON.stringify(config)); return; }
+  await writeFile_("site-config.json", JSON.stringify(config, null, 2));
 }

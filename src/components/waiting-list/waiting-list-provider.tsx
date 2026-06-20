@@ -21,7 +21,8 @@ import { Label } from "@/components/ui/label";
 import { useLang } from "@/components/lang/language-provider";
 import { CheckCircle2 } from "lucide-react";
 
-const FORMSPREE_ID = "xpqeveqn";
+const DEFAULT_FORMSPREE_ID = "xpqeveqn";
+const DEFAULT_CONTACT_EMAIL = "cydcommittee@gmail.com";
 
 type Ctx = { open: (plot?: string | null) => void };
 const WaitingListContext = createContext<Ctx | null>(null);
@@ -35,13 +36,17 @@ export function useWaitingList() {
 function WaitingListForm({
   plot,
   lang,
+  formspreeId,
+  contactEmail,
   onClose,
 }: {
   plot: string | null;
   lang: string;
+  formspreeId: string;
+  contactEmail: string;
   onClose: () => void;
 }) {
-  const [state, handleSubmit] = useForm(FORMSPREE_ID);
+  const [state, handleSubmit] = useForm(formspreeId);
   const cy = lang === "cy";
 
   if (state.succeeded) {
@@ -107,8 +112,8 @@ function WaitingListForm({
         {serverError && (
           <p className="text-sm font-semibold text-destructive">
             {cy
-              ? "Roedd problem. E-bostiwch ni: cydcommittee@gmail.com"
-              : "Something went wrong. Please email cydcommittee@gmail.com"}
+              ? `Roedd problem. E-bostiwch ni: ${contactEmail}`
+              : `Something went wrong. Please email ${contactEmail}`}
           </p>
         )}
 
@@ -122,7 +127,15 @@ function WaitingListForm({
   );
 }
 
-export function WaitingListProvider({ children }: { children: ReactNode }) {
+export function WaitingListProvider({
+  children,
+  formspreeId = DEFAULT_FORMSPREE_ID,
+  contactEmail = DEFAULT_CONTACT_EMAIL,
+}: {
+  children: ReactNode;
+  formspreeId?: string;
+  contactEmail?: string;
+}) {
   const { lang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
   const [plot, setPlot] = useState<string | null>(null);
@@ -150,6 +163,8 @@ export function WaitingListProvider({ children }: { children: ReactNode }) {
             key={openCount}
             plot={plot}
             lang={lang}
+            formspreeId={formspreeId}
+            contactEmail={contactEmail}
             onClose={() => onOpenChange(false)}
           />
         </DialogContent>

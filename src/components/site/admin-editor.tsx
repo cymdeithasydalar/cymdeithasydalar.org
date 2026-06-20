@@ -5,29 +5,34 @@ import {
   saveCodes,
   savePassphrases,
   savePlotStatus,
+  saveConfig,
   adminLogout,
   type SaveState,
 } from "@/app/admin/actions";
+import type { SiteConfig } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useLang } from "@/components/lang/language-provider";
-import { CheckCircle2, KeyRound, Lock, LogOut, MapPin } from "lucide-react";
+import { CheckCircle2, KeyRound, Link2, Lock, LogOut, MapPin } from "lucide-react";
 
 export function AdminEditor({
   codes,
   allPlots,
   availablePlots,
+  config,
 }: {
   codes: { main: string; allotment: string };
   allPlots: string[];
   availablePlots: Set<string>;
+  config: SiteConfig;
 }) {
   const { lang } = useLang();
   const [codesState, codesAction, codesPending] = useActionState<SaveState, FormData>(saveCodes, {});
   const [passState, passAction, passPending] = useActionState<SaveState, FormData>(savePassphrases, {});
   const [plotState, plotAction, plotPending] = useActionState<SaveState, FormData>(savePlotStatus, {});
+  const [cfgState, cfgAction, cfgPending] = useActionState<SaveState, FormData>(saveConfig, {});
 
   const [checkedPlots, setCheckedPlots] = useState<Set<string>>(() => new Set([...availablePlots]));
 
@@ -214,6 +219,66 @@ export function AdminEditor({
                 {passPending
                   ? cy ? "Yn cadw…" : "Saving…"
                   : cy ? "Cadw cyfrineiriau" : "Save passphrases"}
+              </Button>
+            </form>
+          </Card>
+        </section>
+
+        {/* Contact & Integration */}
+        <section>
+          <h2 className="font-heading text-xl text-[var(--green-dark)] mb-3">
+            {cy ? "Cyswllt ac Integreiddio" : "Contact & Integration"}
+          </h2>
+          <Card className="rounded-[10px_26px_10px_26px] p-8">
+            <form action={cfgAction} className="space-y-5 text-left">
+              <div className="space-y-1.5">
+                <Label htmlFor="contactEmail">
+                  {cy ? "E-bost cyswllt" : "Contact email"}
+                </Label>
+                <Input
+                  id="contactEmail"
+                  name="contactEmail"
+                  type="email"
+                  autoComplete="off"
+                  defaultValue={config.contactEmail ?? "cydcommittee@gmail.com"}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="formspreeId">
+                  {cy ? "ID Formspree" : "Formspree form ID"}
+                </Label>
+                <Input
+                  id="formspreeId"
+                  name="formspreeId"
+                  autoComplete="off"
+                  placeholder="e.g. xpqeveqn"
+                  defaultValue={config.formspreeId ?? "xpqeveqn"}
+                  className="font-mono"
+                />
+                <p className="text-xs text-muted-foreground">
+                  {cy
+                    ? "8 nod o'r URL formspree.io/f/…"
+                    : "8-char ID from your formspree.io/f/… URL"}
+                </p>
+              </div>
+              {cfgState.error && (
+                <p className="text-sm font-semibold text-destructive">
+                  {cfgState.error === "invalid"
+                    ? cy ? "Cyfeiriad e-bost annilys." : "Invalid email address."
+                    : cy ? "Sesiwn wedi dod i ben." : "Session expired. Please sign in again."}
+                </p>
+              )}
+              {cfgState.saved && (
+                <p className="flex items-center gap-2 text-sm font-semibold text-[var(--green-mid)]">
+                  <CheckCircle2 className="size-4" />
+                  {cy ? "Wedi'i gadw." : "Saved."}
+                </p>
+              )}
+              <Button type="submit" className="w-full" disabled={cfgPending}>
+                <Link2 className="size-4" />
+                {cfgPending
+                  ? cy ? "Yn cadw…" : "Saving…"
+                  : cy ? "Cadw gosodiadau" : "Save settings"}
               </Button>
             </form>
           </Card>

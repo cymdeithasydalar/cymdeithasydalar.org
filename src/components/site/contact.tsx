@@ -1,8 +1,12 @@
 import { T } from "@/components/lang/language-provider";
 import { SectionHeading } from "./section-heading";
 import { JoinButton } from "@/components/waiting-list/join-button";
+import { readConfig } from "@/lib/store";
 
-export function Contact() {
+export async function Contact() {
+  const config = await readConfig();
+  const email = config?.contactEmail ?? "cydcommittee@gmail.com";
+
   return (
     <section id="contact" className="bg-card py-20 scroll-mt-20 text-center">
       <div className="max-w-6xl mx-auto px-6">
@@ -11,10 +15,10 @@ export function Contact() {
           <T en="Have a question? Get in touch with the team." cy="Oes gennych gwestiwn? Cysylltwch â'r tîm." />
         </p>
         <a
-          href="mailto:cydcommittee@gmail.com"
+          href={`mailto:${email}`}
           className="inline-block text-xl font-bold text-[var(--green-mid)] border-b-2 border-[var(--green-light)] pb-0.5 mb-6 hover:text-[var(--green-dark)] transition-colors"
         >
-          cydcommittee@gmail.com
+          {email}
         </a>
         <p className="italic text-muted-foreground mb-5">
           <T en="or" cy="neu" />

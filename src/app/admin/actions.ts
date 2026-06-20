@@ -8,7 +8,7 @@ import {
   checkAdminPassphrase,
   isAdmin,
 } from "@/lib/auth";
-import { readPassphrases, writeCodes, writePassphrases, writeAvailablePlots } from "@/lib/store";
+import { readPassphrases, writeCodes, writePassphrases, writeAvailablePlots, readConfig, writeConfig } from "@/lib/store";
 import { ALL_PLOTS } from "@/lib/plots";
 
 export type AdminUnlockState = { error?: string };
@@ -94,6 +94,27 @@ export async function savePlotStatus(
   const available = ALL_PLOTS.filter((p) => formData.get(`plot_${p}`) === "on");
   await writeAvailablePlots(available);
   return { saved: true, availablePlots: available };
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export async function saveConfig(
+  _prev: SaveState,
+  formData: FormData,
+): Promise<SaveState> {
+  if (!(await isAdmin())) return { error: "unauthorised" };
+
+  const formspreeId = String(formData.get("formspreeId") ?? "").trim();
+  const contactEmail = String(formData.get("contactEmail") ?? "").trim();
+
+  if (contactEmail && !EMAIL_RE.test(contactEmail)) return { error: "invalid" };
+
+  const current = await readConfig();
+  await writeConfig({
+    formspreeId: formspreeId || current?.formspreeId,
+    contactEmail: contactEmail || current?.contactEmail,
+  });
+  return { saved: true };
 }
 
 export async function adminLogout() {

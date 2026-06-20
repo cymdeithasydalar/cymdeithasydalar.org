@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito, Patrick_Hand, Caveat, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getLang } from "@/lib/i18n";
+import { readConfig } from "@/lib/store";
 import { LanguageProvider } from "@/components/lang/language-provider";
 import { WaitingListProvider } from "@/components/waiting-list/waiting-list-provider";
 import { Navbar } from "@/components/site/navbar";
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const lang = await getLang();
+  const [lang, config] = await Promise.all([getLang(), readConfig()]);
 
   return (
     <html
@@ -49,7 +50,10 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <LanguageProvider initialLang={lang}>
-          <WaitingListProvider>
+          <WaitingListProvider
+            formspreeId={config?.formspreeId ?? "xpqeveqn"}
+            contactEmail={config?.contactEmail ?? "cydcommittee@gmail.com"}
+          >
             <Navbar />
             <main className="flex-1 flex flex-col">{children}</main>
             <Footer />

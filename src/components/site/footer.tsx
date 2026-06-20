@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { T } from "@/components/lang/language-provider";
+import { readConfig } from "@/lib/store";
 
 const links = [
   { href: "/#about", en: "About", cy: "Amdanom" },
@@ -9,7 +10,9 @@ const links = [
   { href: "/#contact", en: "Contact", cy: "Cysylltu" },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const config = await readConfig();
+  const email = config?.contactEmail ?? "cydcommittee@gmail.com";
   return (
     <footer className="bg-[var(--green-dark)] text-white/80 pt-14 pb-6 mt-auto">
       <div className="max-w-6xl mx-auto px-6">
@@ -23,10 +26,10 @@ export function Footer() {
               />
             </p>
             <a
-              href="mailto:cydcommittee@gmail.com"
+              href={`mailto:${email}`}
               className="text-sm text-white/55 hover:text-white transition-colors"
             >
-              cydcommittee@gmail.com
+              {email}
             </a>
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
