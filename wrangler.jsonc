@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "cymdeithasydalar",
+  "name": "cymdeithasydalar-org",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-09-01",
   // Required by OpenNext so node:crypto / node:fs APIs resolve on Workers.
