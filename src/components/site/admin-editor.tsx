@@ -35,6 +35,8 @@ export function AdminEditor({
   const [cfgState, cfgAction, cfgPending] = useActionState<SaveState, FormData>(saveConfig, {});
 
   const [checkedPlots, setCheckedPlots] = useState<Set<string>>(() => new Set([...availablePlots]));
+  const [contactEmail, setContactEmail] = useState(config.contactEmail ?? "cydcommittee@gmail.com");
+  const [formspreeId, setFormspreeId] = useState(config.formspreeId ?? "xpqeveqn");
 
   // Sync local checkbox state with the server's confirmed saved result.
   useEffect(() => {
@@ -240,7 +242,8 @@ export function AdminEditor({
                   name="contactEmail"
                   type="email"
                   autoComplete="off"
-                  defaultValue={config.contactEmail ?? "cydcommittee@gmail.com"}
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
                 />
               </div>
               <div className="space-y-1.5">
@@ -252,7 +255,8 @@ export function AdminEditor({
                   name="formspreeId"
                   autoComplete="off"
                   placeholder="e.g. xpqeveqn"
-                  defaultValue={config.formspreeId ?? "xpqeveqn"}
+                  value={formspreeId}
+                  onChange={(e) => setFormspreeId(e.target.value)}
                   className="font-mono"
                 />
                 <p className="text-xs text-muted-foreground">
