@@ -17,7 +17,7 @@ export function Access() {
           </div>
           <div className="space-y-3">
             <h3 className="font-heading text-2xl text-[var(--green-dark)]">
-              <T en="Car Pass" cy="Pas Car" />
+              <T en="Car Park" cy="Maes Parcio" />
             </h3>
             <p className="text-[var(--green-mid)]">
               <T
