@@ -31,6 +31,17 @@ const hoverCss = `<style>
   .plot-interactive:active {
     fill-opacity: 0.45 !important;
   }
+  /* Applied at runtime by InteractiveSiteMap for plots marked available */
+  .plot-available {
+    fill: #4a7c4e !important;
+    fill-opacity: 0.18 !important;
+  }
+  .plot-available:hover {
+    fill-opacity: 0.38 !important;
+  }
+  .plot-available:active {
+    fill-opacity: 0.55 !important;
+  }
 </style>`;
 
 function addPlotAttrs(elem) {
