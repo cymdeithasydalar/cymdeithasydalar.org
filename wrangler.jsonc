@@ -13,7 +13,7 @@
   //   wrangler kv namespace create CYD_KV
   // then paste the returned id below.
   "kv_namespaces": [
-    { "binding": "CYD_KV", "id": "REPLACE_WITH_KV_NAMESPACE_ID" }
+    { "binding": "CYD_KV", "id": "d5418343405545e6b1630141f93ba911" }
   ],
   // Non-secret seed defaults (same role as env vars on Docker). Secrets
   // (MEMBERS_PASSPHRASE, ADMIN_PASSPHRASE, AUTH_SECRET) go via:
