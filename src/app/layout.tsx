@@ -32,6 +32,9 @@ export const metadata: Metadata = {
   title: "Cymdeithas y Dalar | Community Allotment",
   description:
     "A friendly, inclusive community allotment — grow, share, learn and thrive. Join our waiting list.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default async function RootLayout({

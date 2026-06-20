@@ -12,7 +12,7 @@ import { readPassphrases, writeCodes, writePassphrases, writeAvailablePlots } fr
 import { ALL_PLOTS } from "@/lib/plots";
 
 export type AdminUnlockState = { error?: string };
-export type SaveState = { error?: string; saved?: boolean };
+export type SaveState = { error?: string; saved?: boolean; availablePlots?: string[] };
 
 export async function adminUnlock(
   _prev: AdminUnlockState,
@@ -93,7 +93,7 @@ export async function savePlotStatus(
   if (!(await isAdmin())) return { error: "unauthorised" };
   const available = ALL_PLOTS.filter((p) => formData.get(`plot_${p}`) === "on");
   await writeAvailablePlots(available);
-  return { saved: true };
+  return { saved: true, availablePlots: available };
 }
 
 export async function adminLogout() {

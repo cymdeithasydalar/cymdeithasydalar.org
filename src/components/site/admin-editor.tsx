@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import {
   saveCodes,
   savePassphrases,
@@ -29,6 +29,15 @@ export function AdminEditor({
   const [passState, passAction, passPending] = useActionState<SaveState, FormData>(savePassphrases, {});
   const [plotState, plotAction, plotPending] = useActionState<SaveState, FormData>(savePlotStatus, {});
 
+  const [checkedPlots, setCheckedPlots] = useState<Set<string>>(() => new Set([...availablePlots]));
+
+  // Sync local checkbox state with the server's confirmed saved result.
+  useEffect(() => {
+    if (plotState.saved && plotState.availablePlots) {
+      setCheckedPlots(new Set(plotState.availablePlots));
+    }
+  }, [plotState]);
+
   const cy = lang === "cy";
 
   return (
@@ -54,27 +63,32 @@ export function AdminEditor({
                   : "Tick the plots that are available. Any unticked plot is treated as taken."}
               </p>
               <div className="flex flex-wrap gap-2">
-                {allPlots.map((plot) => {
-                  const checked = availablePlots.has(plot);
-                  return (
-                    <label
-                      key={plot}
-                      className={`
-                        inline-flex items-center justify-center w-12 h-10 rounded-lg border-2 text-sm font-mono font-bold cursor-pointer select-none transition-colors
-                        has-[:checked]:bg-[var(--green-mid)] has-[:checked]:border-[var(--green-mid)] has-[:checked]:text-white
-                        border-border text-muted-foreground hover:border-[var(--green-light)] hover:text-[var(--green-dark)]
-                      `}
-                    >
-                      <input
-                        type="checkbox"
-                        name={`plot_${plot}`}
-                        defaultChecked={checked}
-                        className="sr-only"
-                      />
-                      {plot}
-                    </label>
-                  );
-                })}
+                {allPlots.map((plot) => (
+                  <label
+                    key={plot}
+                    className={`
+                      inline-flex items-center justify-center w-12 h-10 rounded-lg border-2 text-sm font-mono font-bold cursor-pointer select-none transition-colors
+                      has-[:checked]:bg-[var(--green-mid)] has-[:checked]:border-[var(--green-mid)] has-[:checked]:text-white
+                      border-border text-muted-foreground hover:border-[var(--green-light)] hover:text-[var(--green-dark)]
+                    `}
+                  >
+                    <input
+                      type="checkbox"
+                      name={`plot_${plot}`}
+                      checked={checkedPlots.has(plot)}
+                      onChange={(e) =>
+                        setCheckedPlots((prev) => {
+                          const next = new Set(prev);
+                          if (e.target.checked) next.add(plot);
+                          else next.delete(plot);
+                          return next;
+                        })
+                      }
+                      className="sr-only"
+                    />
+                    {plot}
+                  </label>
+                ))}
               </div>
               {plotState.error && (
                 <p className="text-sm font-semibold text-destructive">

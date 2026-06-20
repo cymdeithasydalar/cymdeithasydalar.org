@@ -20,8 +20,8 @@ export async function SiteMap() {
           <InteractiveSiteMap availablePlots={availableList} />
           <p className="text-center text-sm italic text-muted-foreground mt-4">
             <T
-              en="Click any plot to join the waiting list for it."
-              cy="Cliciwch ar unrhyw lain i ymuno â'r rhestr aros amdani."
+              en="Click any available (green) plot to join the waiting list for it."
+              cy="Cliciwch ar unrhyw lain sydd ar gael (gwyrdd) i ymuno â'r rhestr aros."
             />
           </p>
         </div>

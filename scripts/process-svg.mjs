@@ -18,29 +18,9 @@ const hoverCss = `<style>
   #layer1 { pointer-events: none; }
 
   .plot-interactive {
-    cursor: pointer;
-    /* all: respond across the full shape area, not just where paint is visible.
-       Without this, transparent-fill rects only fire on the stroke border. */
+    /* all: respond across the full shape area, not just where paint is visible. */
     pointer-events: all;
-    transition: fill 0.12s ease, fill-opacity 0.12s ease;
-  }
-  .plot-interactive:hover {
-    fill: #4a7c4e !important;
-    fill-opacity: 0.28 !important;
-  }
-  .plot-interactive:active {
-    fill-opacity: 0.45 !important;
-  }
-  /* Applied at runtime by InteractiveSiteMap for plots marked available */
-  .plot-available {
-    fill: #4a7c4e !important;
-    fill-opacity: 0.18 !important;
-  }
-  .plot-available:hover {
-    fill-opacity: 0.38 !important;
-  }
-  .plot-available:active {
-    fill-opacity: 0.55 !important;
+    transition: fill-opacity 0.12s ease;
   }
 </style>`;
 
