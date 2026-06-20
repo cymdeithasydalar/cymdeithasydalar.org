@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { availableCount, TOTAL_PLOTS } from "@/lib/plots";
 import { SectionHeading } from "./section-heading";
 import { T } from "@/components/lang/language-provider";
@@ -14,14 +13,14 @@ export function SiteMap() {
           subtitleCy={`${availableCount()} o ${TOTAL_PLOTS} llain ar gael`}
         />
 
-        <div className="max-w-[461px] mx-auto">
-          <Image
-            src="/site-map.jpeg"
+        <div className="max-w-2xl mx-auto">
+          {/* SVG map — vector, no image optimisation needed */}
+          <img
+            src="/site-map.svg"
             alt="Allotment site map showing 30 plots, shed, water point, compost area, parking and facilities"
-            width={461}
-            height={879}
+            width={974}
+            height={1858}
             className="w-full h-auto rounded-[20px] border-2 border-border shadow-[0_6px_22px_rgba(30,58,30,0.12)]"
-            priority={false}
           />
           <p className="text-center text-sm italic text-muted-foreground mt-4">
             <T
