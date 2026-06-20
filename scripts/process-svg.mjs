@@ -37,11 +37,10 @@ function addPlotAttrs(elem) {
   const labelMatch = elem.match(/inkscape:label="([^"]+)"/);
   if (!labelMatch) return elem;
   const label = labelMatch[1].trim();
-  if (!/^\d+$/.test(label)) return elem;
-  const plotNum = parseInt(label, 10);
+  if (!/^\d+[ab]?$/.test(label)) return elem;
   return elem.replace(
     /\s*\/>/,
-    `\n       data-plot="${plotNum}"\n       class="plot-interactive" />`,
+    `\n       data-plot="${label}"\n       class="plot-interactive" />`,
   );
 }
 

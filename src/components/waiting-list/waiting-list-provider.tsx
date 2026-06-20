@@ -24,7 +24,7 @@ import { CheckCircle2 } from "lucide-react";
 const FORMSPREE_ID =
   process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "YOUR_FORMSPREE_ID";
 
-type Ctx = { open: (plot?: number | null) => void };
+type Ctx = { open: (plot?: string | null) => void };
 const WaitingListContext = createContext<Ctx | null>(null);
 
 export function useWaitingList() {
@@ -36,12 +36,12 @@ export function useWaitingList() {
 export function WaitingListProvider({ children }: { children: ReactNode }) {
   const { lang } = useLang();
   const [isOpen, setIsOpen] = useState(false);
-  const [plot, setPlot] = useState<number | null>(null);
+  const [plot, setPlot] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [error, setError] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
 
-  const open = useCallback((p: number | null = null) => {
+  const open = useCallback((p: string | null = null) => {
     setPlot(p ?? null);
     setStatus("idle");
     setError("");

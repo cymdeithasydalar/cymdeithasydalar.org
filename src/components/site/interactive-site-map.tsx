@@ -11,7 +11,7 @@ export function InteractiveSiteMap() {
     (e: React.MouseEvent<HTMLDivElement>) => {
       const target = (e.target as Element).closest("[data-plot]");
       if (!target) return;
-      const plot = Number((target as HTMLElement).dataset.plot);
+      const plot = (target as HTMLElement).dataset.plot;
       if (plot) open(plot);
     },
     [open],
