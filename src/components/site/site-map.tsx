@@ -1,6 +1,7 @@
 import { availableCount, TOTAL_PLOTS } from "@/lib/plots";
 import { SectionHeading } from "./section-heading";
 import { T } from "@/components/lang/language-provider";
+import { InteractiveSiteMap } from "./interactive-site-map";
 
 export function SiteMap() {
   return (
@@ -14,18 +15,11 @@ export function SiteMap() {
         />
 
         <div className="max-w-2xl mx-auto">
-          {/* SVG map — vector, no image optimisation needed */}
-          <img
-            src="/site-map.svg"
-            alt="Allotment site map showing 30 plots, shed, water point, compost area, parking and facilities"
-            width={974}
-            height={1858}
-            className="w-full h-auto rounded-[20px] border-2 border-border shadow-[0_6px_22px_rgba(30,58,30,0.12)]"
-          />
+          <InteractiveSiteMap />
           <p className="text-center text-sm italic text-muted-foreground mt-4">
             <T
-              en="To join the waiting list for a plot, use the button below."
-              cy="I ymuno â'r rhestr aros am lain, defnyddiwch y botwm isod."
+              en="Click any plot to join the waiting list for it."
+              cy="Cliciwch ar unrhyw lain i ymuno â'r rhestr aros amdani."
             />
           </p>
         </div>

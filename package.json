@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/process-svg.mjs && next dev",
+    "build": "node scripts/process-svg.mjs && next build",
     "start": "next start",
-    "cf:build": "CF_BUILD=1 opennextjs-cloudflare build",
+    "cf:build": "node scripts/process-svg.mjs && CF_BUILD=1 opennextjs-cloudflare build",
     "cf:preview": "CF_BUILD=1 opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf:deploy": "CF_BUILD=1 opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },

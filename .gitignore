@@ -23,6 +23,9 @@
 # admin-edited settings (local dev)
 /data
 
+# generated from public/site-map.svg by scripts/process-svg.mjs
+/src/lib/site-map-svg.ts
+
 # cloudflare / opennext build artifacts + local secrets
 /.open-next
 /.wrangler
