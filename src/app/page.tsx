@@ -8,7 +8,7 @@ import { Contact } from "@/components/site/contact";
 import { ComingSoon } from "@/components/site/coming-soon";
 
 // Flip to true once the invoice is paid and the site can go live.
-const SITE_LIVE = false;
+const SITE_LIVE = true;
 
 export default function Home() {
   if (!SITE_LIVE) return <ComingSoon />;
