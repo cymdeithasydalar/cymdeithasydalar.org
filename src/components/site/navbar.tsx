@@ -15,7 +15,7 @@ const links = [
   { href: "/#contact", en: "Contact", cy: "Cysylltu" },
 ];
 
-export function Navbar() {
+export function Navbar({ live }: { live: boolean }) {
   const { lang, toggle } = useLang();
   const { open } = useWaitingList();
   const [menu, setMenu] = useState(false);
@@ -32,18 +32,22 @@ export function Navbar() {
 
         {/* Desktop */}
         <div className="ml-auto hidden md:flex items-center gap-1">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="px-3 py-2 rounded-lg text-sm font-semibold text-[var(--green-mid)] hover:bg-secondary transition-colors"
-            >
-              {lang === "cy" ? l.cy : l.en}
-            </Link>
-          ))}
-          <Button size="sm" onClick={() => open()} className="ml-1">
-            {lang === "cy" ? "Rhestr Aros" : "Join Waiting List"}
-          </Button>
+          {live && (
+            <>
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="px-3 py-2 rounded-lg text-sm font-semibold text-[var(--green-mid)] hover:bg-secondary transition-colors"
+                >
+                  {lang === "cy" ? l.cy : l.en}
+                </Link>
+              ))}
+              <Button size="sm" onClick={() => open()} className="ml-1">
+                {lang === "cy" ? "Rhestr Aros" : "Join Waiting List"}
+              </Button>
+            </>
+          )}
           <Button size="sm" variant="outline" onClick={toggle} className="ml-1 gap-1.5">
             <Languages className="size-4" />
             {lang === "cy" ? "English" : "Cymraeg"}
@@ -63,19 +67,23 @@ export function Navbar() {
       {/* Mobile menu */}
       {menu && (
         <div className="md:hidden border-t border-border bg-[var(--cream)] px-6 py-4 flex flex-col gap-1">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setMenu(false)}
-              className="px-3 py-2.5 rounded-lg font-semibold text-[var(--green-mid)] hover:bg-secondary"
-            >
-              {lang === "cy" ? l.cy : l.en}
-            </Link>
-          ))}
-          <Button onClick={() => { setMenu(false); open(); }} className="mt-2 w-full">
-            {lang === "cy" ? "Ymuno â'r Rhestr Aros" : "Join the Waiting List"}
-          </Button>
+          {live && (
+            <>
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setMenu(false)}
+                  className="px-3 py-2.5 rounded-lg font-semibold text-[var(--green-mid)] hover:bg-secondary"
+                >
+                  {lang === "cy" ? l.cy : l.en}
+                </Link>
+              ))}
+              <Button onClick={() => { setMenu(false); open(); }} className="mt-2 w-full">
+                {lang === "cy" ? "Ymuno â'r Rhestr Aros" : "Join the Waiting List"}
+              </Button>
+            </>
+          )}
           <Button variant="outline" onClick={toggle} className="w-full gap-1.5">
             <Languages className="size-4" />
             {lang === "cy" ? "English" : "Cymraeg"}

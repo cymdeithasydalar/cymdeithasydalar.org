@@ -20,6 +20,9 @@
   //   wrangler secret put <NAME>
   "vars": {
     "GATE_CODE": "1303",
-    "ALLOTMENT_GATE_CODE": "3254"
+    "ALLOTMENT_GATE_CODE": "3254",
+    // Shows the full site only when set to "true" (pay wall / coming-soon gate).
+    // Edit here or in the Cloudflare dashboard — no rebuild needed.
+    "SITE_LIVE": "false"
   }
 }

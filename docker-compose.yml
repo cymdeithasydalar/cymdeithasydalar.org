@@ -16,6 +16,8 @@ services:
       # saved via /admin they live in the data volume below and take priority.
       - GATE_CODE=${GATE_CODE}
       - ALLOTMENT_GATE_CODE=${ALLOTMENT_GATE_CODE}
+      # Shows the full site only when set to "true" (pay wall / coming-soon gate).
+      - SITE_LIVE=${SITE_LIVE:-false}
       - DATA_DIR=/data
     volumes:
       # Persists admin-edited gate codes across restarts and rebuilds.

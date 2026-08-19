@@ -6,9 +6,7 @@ import { Access } from "@/components/site/access";
 import { Cta } from "@/components/site/cta";
 import { Contact } from "@/components/site/contact";
 import { ComingSoon } from "@/components/site/coming-soon";
-
-// Flip to true once the invoice is paid and the site can go live.
-const SITE_LIVE = true;
+import { SITE_LIVE } from "@/lib/site";
 
 export default function Home() {
   if (!SITE_LIVE) return <ComingSoon />;

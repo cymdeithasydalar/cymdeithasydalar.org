@@ -8,6 +8,7 @@ import { WaitingListProvider } from "@/components/waiting-list/waiting-list-prov
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 import { Toaster } from "@/components/ui/sonner";
+import { SITE_LIVE } from "@/lib/site";
 
 const BASE_URL = "https://cymdeithasydalar.org";
 
@@ -113,7 +114,7 @@ export default async function RootLayout({
             formspreeId={config?.formspreeId ?? "xpqeveqn"}
             contactEmail={config?.contactEmail ?? "cydcommittee@gmail.com"}
           >
-            <Navbar />
+            <Navbar live={SITE_LIVE} />
             <main className="flex-1 flex flex-col">{children}</main>
             <Footer />
             <Toaster />
